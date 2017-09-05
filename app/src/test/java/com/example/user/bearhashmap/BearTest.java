@@ -17,13 +17,8 @@ public class BearTest {
 
     @Before
     public void before() {
-        bear = new Bear("Yogi");
+        bear = new Bear();
         salmon = new Salmon();
-    }
-
-    @Test
-    public void testBearHasName(){
-        assertEquals("Yogi", bear.getName());
     }
 
     @Test
@@ -33,15 +28,41 @@ public class BearTest {
 
     @Test
     public void testCanEatSalmon(){
-        bear.eat(salmon, "Monday");
+        bear.eat(salmon, "monday");
         assertEquals(1, bear.foodCount());
     }
 
     @Test
-    public void testCanMakeJournalEntry(){
-        bear.eat(salmon, "Monday");
-        assertEquals("Monday", )
+    public void bearHasWeekDayMap(){
+        assertEquals(0, bear.checkJournal("monday") );
+    }
 
+    @Test
+    public void testCanMakeJournalEntry(){
+        bear.eat(salmon, "monday");
+        assertEquals(1, bear.checkJournal("monday"));
+    }
+
+    @Test
+    public void testMakesManyEntries(){
+        bear.eat(salmon, "monday");
+        bear.eat(salmon, "monday");
+        bear.eat(salmon, "wednesday");
+        bear.eat(salmon, "thursday");
+        assertEquals(2, bear.checkJournal("monday"));
+        assertEquals(1, bear.checkJournal("wednesday"));
+        assertEquals(1, bear.checkJournal("thursday"));
+    }
+
+    @Test
+    public void testNewWeek(){
+        bear.eat(salmon, "monday");
+        bear.eat(salmon, "wednesday");
+        bear.eat(salmon, "thursday");
+        bear.newWeek();
+        assertEquals(0, bear.checkJournal("monday"));
+        assertEquals(0, bear.checkJournal("wednesday"));
+        assertEquals(0, bear.checkJournal("thursday"));
     }
 }
 
